@@ -7,7 +7,7 @@ class WeatherApi:
         api_token = ""
 
         # Get Config
-        file_path = 'data.json'
+        file_path = '../../config/env.json'
         with open(file_path, 'r') as file:
             data = json.load(file)
             host = data["api"]["host"]
@@ -17,7 +17,7 @@ class WeatherApi:
         self.url = "https://{host}/"
         self.headers = {
             "x-rapidapi-host": api["host"],
-            "x-rapidapi-key": apikey, 
+            "x-rapidapi-key": api_token, 
         }
 
     def formatResponse(self, json):
