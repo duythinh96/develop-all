@@ -1,12 +1,13 @@
 const axios = require('axios');
+const env = require('../../config/env.json');
 
 class WeatherApiClass {
     async forecast(city) {
-        const url = 'https://open-weather13.p.rapidapi.com/city/' + encodeURIComponent(city) + '/EN';
+        const url = `https://${env.api.host}/city/` + encodeURIComponent(city) + '/EN';
         const options = {
             headers: {
-                'x-rapidapi-host': 'open-weather13.p.rapidapi.com',
-                'x-rapidapi-key': '073922d575msh362e38820e8e6e2p129d8fjsn3537b7039650',
+                'x-rapidapi-host': env.api.host,
+                'x-rapidapi-key': env.api.api_token,
             },
         };
 

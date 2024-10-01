@@ -1,12 +1,19 @@
 <?php
 class WeatherApi {
+
+    protected $host;
+    protected $api_token;
     
+    /**
+     * @param $city
+     */
     public static function forecast($city) 
     {
+        self::init();
         # Secret
-        $url = "https://open-weather13.p.rapidapi.com/city/{$city}/EN";
-        $host = "open-weather13.p.rapidapi.com";
-        $api_key = "073922d575msh362e38820e8e6e2p129d8fjsn3537b7039650";
+        $url = "https://" . self::$host . "/{$city}/EN";
+        $host = self::$host;
+        $api_key = self::$api_token;
 
         # Call Weather api
         try {
@@ -16,6 +23,11 @@ class WeatherApi {
         }
     }
 
+    /**
+     * @param $url
+     * @param $host
+     * @param $api_key
+     */
     private static function http($url, $host, $api_key) 
     {
         # Init variable
@@ -47,5 +59,29 @@ class WeatherApi {
             throw new \Error($error);
         }
         return $response;
+    }
+
+    /**
+     * Set $host, $api_key
+     */
+    private static function init ()
+    {
+        // Load env file
+        $file_path = '../../config/env.json';
+        $json_data = file_get_contents($file_path);
+        if ($json_data === false) {
+            die('Error reading the JSON file.');
+        }
+
+        // Decode Json to Array
+        $data = json_decode($json_data, true); 
+
+        if (json_last_error() !== JSON_ERROR_NONE) {
+            die('Error decoding JSON: ' . json_last_error_msg());
+        }
+
+        // Set attribute
+        self::$host = $data["api"]["host"];
+        self::$api_token = $data["api"]["api_token"];
     }
 }
