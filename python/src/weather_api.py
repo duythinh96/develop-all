@@ -1,11 +1,22 @@
 import requests
+import json
 
 class WeatherApi:
-    API_URL = "https://open-weather13.p.rapidapi.com/"
-
     def __init__(self, apikey):
+        host = ""
+        api_token = ""
+
+        # Get Config
+        file_path = 'data.json'
+        with open(file_path, 'r') as file:
+            data = json.load(file)
+            host = data["api"]["host"]
+            api_token = data["api"]["api_token"]
+
+        # Set attribute
+        self.url = "https://{host}/"
         self.headers = {
-            "x-rapidapi-host": "open-weather13.p.rapidapi.com",
+            "x-rapidapi-host": api["host"],
             "x-rapidapi-key": apikey, 
         }
 
